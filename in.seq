@@ -1,20 +1,20 @@
-@phase Request, #CD3F85
-# user clicks link
-User, Browser, Clicks on link
-# browser connects to server
-Browser, Server, Opens socket using link address
-Server, Browser, Accepts connection
-Browser, Server, Requests page content
+@phase Calibration, #CD3F85
+Power Manager, Power Processor, POW_perform_PCDU_TM_calibration
+Power Processor, Power Processor, POW_calibrate_ATMs
+Power Processor, Data Bank, DB_write
+Power Processor, Power Processor, POW_calibrate_DTMs
+Power Processor, Data Bank, DB_write
+Power Processor, Power Manager, Calibration Done
 @endphase
-@phase Synthesis, #C0C0FF
-Server, Database, Requests page data
-Database, Server, Returns page data
-Server, Server, Generates page content
+
+@phase Processing, #C0C0FF
+Power Manager, Power Processor, POW_perform_PCDU_TM_processing
+Power Processor, Power Processor, POW_calculate_total_current
+Power Processor, Data Bank, DB_write
+Power Processor, Power Processor, POW_calculate_discrete_states
+Power Processor, Data Bank, DB_write
+Power Processor, Power Manager, Processing Done
 @endphase
-@phase Response, #CD853F
-# server responds
-Server, Browser, Returns page content
-# browser rasterizes and presents new page to user
-Browser, Browser, Rasterizes content
-Browser, User, Presents content
-@endphase
+
+Power Manager, Power TM/TC I/F, POW_handle_telecommand
+Power TM/TC I/F, Power Manager, TC handled
